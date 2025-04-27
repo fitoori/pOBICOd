@@ -1,0 +1,25 @@
+[Unit]
+Description=Obico → Wire-Pod Bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/env python3 /home/pi/obico-bridge.py
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=10s
+Environment=PYTHONUNBUFFERED=1
+Environment=TOKEN_FILE=/home/pi/obico_bridge/secret.token
+Environment=LOG_FILE=/home/pi/obico_bridge/obico-bridge.log
+
+# Protect against accidental system damage
+ProtectSystem=full
+ProtectHome=true
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
